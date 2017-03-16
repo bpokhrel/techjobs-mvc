@@ -30,14 +30,19 @@ public class SearchController {
             for (HashMap<String, String> job : JobData.findAll()) {
                     for (String key : job.keySet()) {
                         String value = job.get(key);
-                        if (value.toLowerCase().contains(searchTerm.toLowerCase())) {
-                            if(searchType.equals("all")){
-                            jobs.add(job);
-                            }else {
-                                String avalue=job.get(searchType);
+                        if(searchType.equals("all")) {
+                            if (value.toLowerCase().contains(searchTerm.toLowerCase())) {
                                 jobs.add(job);
+                                model.addAttribute("jobs", jobs);
+                            } else {
+                                model.addAttribute("invalid", "Invalid Term!");
                             }
-//                            model.addAttribute("jobs", jobs);
+                        }else{
+                                String avalue=job.get(searchType);
+                            if (avalue.toLowerCase().contains(searchTerm.toLowerCase())){
+
+                                jobs.add(job);
+                                model.addAttribute("jobs", jobs);
                         }else{
                             model.addAttribute("invalid", "Invalid Term!");
                         }
